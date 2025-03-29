@@ -1,0 +1,28 @@
+# Snackbox Configuration
+
+# Database settings
+database:
+  url: "jdbc:postgresql://postgres:5432/snackbox"
+  driver: "org.postgresql.Driver"
+  username: "snackbox"
+  password: "snackbox_password"
+
+# Application settings
+application:
+  # Session timeout in minutes
+  sessionTimeoutMinutes: 2
+  # PayPal.me address for payments
+  paypalMeAddress: "paypal.me/yourcompany"
+  # Currency symbol
+  currencySymbol: "€"
+
+# UI settings
+ui:
+  # Window title
+  title: "Snackbox"
+  # Window width
+  width: 1024
+  # Window height
+  height: 768
+  # Default language (en, de, etc.)
+  defaultLanguage: "en"

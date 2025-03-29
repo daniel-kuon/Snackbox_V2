@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  snackbox:
+    build: .
+    container_name: snackbox
+    ports:
+      - "3000:3000"  # Adjust if your application uses a different port
+    volumes:
+      - snackbox-data:/app/data
+      - ./application.yaml:/app/application.yaml:ro  # Mount external config file
+    environment:
+      - DISPLAY=${DISPLAY}  # For GUI applications on Linux
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: snackbox-postgres
+    environment:
+      POSTGRES_DB: snackbox
+      POSTGRES_USER: snackbox
+      POSTGRES_PASSWORD: snackbox_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: snackbox-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  snackbox-data:
+    driver: local
+  postgres-data:
+    driver: local
+  pgadmin-data:
+    driver: local
